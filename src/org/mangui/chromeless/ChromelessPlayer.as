@@ -74,6 +74,7 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("getPlaybackState", _getPlaybackState);
             ExternalInterface.addCallback("getSeekState", _getSeekState);
             ExternalInterface.addCallback("getType", _getType);
+            ExternalInterface.addCallback("getLiveSlidingMain", _getLiveSlidingMain);
             ExternalInterface.addCallback("getmaxBufferLength", _getmaxBufferLength);
             ExternalInterface.addCallback("getminBufferLength", _getminBufferLength);
             ExternalInterface.addCallback("getlowBufferLength", _getlowBufferLength);
@@ -294,6 +295,9 @@ package org.mangui.chromeless {
 
         protected function _getType() : String {
             return _hls.type;
+        };
+        protected function _getLiveSlidingMain() : Number {
+            return _hls.liveSlidingMain;
         };
 
         protected function _getbufferLength() : Number {
