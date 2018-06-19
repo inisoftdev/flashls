@@ -141,8 +141,10 @@ package org.mangui.chromeless {
             _sheet = new Sprite();
             _sheet.graphics.beginFill(0x000000, 0);
             _sheet.graphics.drawRect(0, 0, stage.stageWidth, stage.stageHeight);
+            /*
             _sheet.addEventListener(MouseEvent.CLICK, _clickHandler);
             _sheet.buttonMode = true;
+            */
             addChild(_sheet);
         }
 
