@@ -94,6 +94,7 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("getAudioTrackList", _getAudioTrackList);
             ExternalInterface.addCallback("getAudioTrackId", _getAudioTrackId);
             ExternalInterface.addCallback("getStats", _getStats);
+            ExternalInterface.addCallback("getVolume", _getVolume);
         };
 
         protected function _setupExternalCallers() : void {
@@ -104,6 +105,7 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerSeek", _seek);
             ExternalInterface.addCallback("playerStop", _stop);
             ExternalInterface.addCallback("playerVolume", _volume);
+            ExternalInterface.addCallback("playerSetVolume", _setVolume);
             ExternalInterface.addCallback("playerSetCurrentLevel", _setCurrentLevel);
             ExternalInterface.addCallback("playerSetNextLevel", _setNextLevel);
             ExternalInterface.addCallback("playerSetLoadLevel", _setLoadLevel);
@@ -410,6 +412,14 @@ package org.mangui.chromeless {
 
         protected function _volume(percent : Number) : void {
             _hls.stream.soundTransform = new SoundTransform(percent / 100);
+        };
+
+        protected function _setVolume(value : Number) : void {
+            _hls.stream.soundTransform = new SoundTransform(value);
+        };
+
+        protected function _getVolume() : Number {
+            return _hls.stream.soundTransform.volume;
         };
 
         protected function _setCurrentLevel(level : int) : void {
