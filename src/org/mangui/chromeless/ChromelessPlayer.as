@@ -374,7 +374,14 @@ package org.mangui.chromeless {
             var list : Array = [];
             var vec : Vector.<AudioTrack> = _hls.audioTracks;
             for (var i : Object in vec) {
-                list.push(vec[i]);
+                var audioTrack : AudioTrack = vec[i];
+                list.push({
+                    title: audioTrack.title,
+                    source: audioTrack.source,
+                    id: audioTrack.id,
+                    isDefault: audioTrack.isDefault,
+                    isAAC: audioTrack.isAAC
+                });
             }
             return list;
         };
