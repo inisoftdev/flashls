@@ -95,6 +95,8 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("getAudioTrackId", _getAudioTrackId);
             ExternalInterface.addCallback("getStats", _getStats);
             ExternalInterface.addCallback("getVolume", _getVolume);
+            ExternalInterface.addCallback("getVideoWidth", _getVideoWidth);
+            ExternalInterface.addCallback("getVideoHeight", _getVideoHeight);
         };
 
         protected function _setupExternalCallers() : void {
@@ -383,6 +385,14 @@ package org.mangui.chromeless {
 
         protected function _getStats() : Object {
             return _statsHandler.stats;
+        };
+
+        protected function _getVideoWidth() : int {
+            return _videoWidth;
+        };
+
+        protected function _getVideoHeight() : int {
+            return _videoHeight;
         };
 
         /** Javascript calls. **/
