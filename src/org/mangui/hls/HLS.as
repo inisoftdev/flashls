@@ -227,6 +227,10 @@ package org.mangui.hls {
             _levelLoader.load(url);
         };
 
+        public function get minBufferLength() : Number {
+            return _hlsNetStream.minBufferLength;
+        }
+
         /** return HLS NetStream **/
         public function get stream() : NetStream {
             return _hlsNetStream;

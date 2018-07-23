@@ -135,6 +135,10 @@ package org.mangui.hls.stream {
             _hls.dispatchEvent(new HLSEvent(HLSEvent.ID3_UPDATED, dump));
         }
 
+        public function get minBufferLength() : Number {
+            return _bufferThresholdController.minBufferLength;
+        }
+
         /** timer function, check/update NetStream state, and append tags if needed **/
         private function _checkBuffer(e : Event) : void {
             var buffer : Number = this.bufferLength,
