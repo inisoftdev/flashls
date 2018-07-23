@@ -15,6 +15,7 @@ package org.mangui.chromeless {
     import flash.system.Security;
     import flash.utils.getTimer;
     import flash.utils.setTimeout;
+    import org.mangui.hls.constant.HLSSeekMode;
     import org.mangui.hls.event.HLSError;
     import org.mangui.hls.event.HLSEvent;
     import org.mangui.hls.HLS;
@@ -126,6 +127,7 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerCapLeveltoStage", _setCapLeveltoStage);
             ExternalInterface.addCallback("playerSetAudioTrack", _setAudioTrack);
             ExternalInterface.addCallback("playerSetJSURLStream", _setJSURLStream);
+            ExternalInterface.addCallback("playerSetKeyframeSeek", _setKeyframeSeek);
         };
 
         protected function _setupExternalCallback() : void {
@@ -455,6 +457,10 @@ package org.mangui.chromeless {
         protected function _setLoadLevel(level : int) : void {
             _hls.loadLevel = level;
         };
+
+        protected function _setKeyframeSeek(enable : Boolean) : void {
+            HLSSettings.seekMode = enable ? HLSSeekMode.KEYFRAME_SEEK : HLSSeekMode.ACCURATE_SEEK;
+        }
 
         protected function _setmaxBufferLength(newLen : Number) : void {
             HLSSettings.maxBufferLength = newLen;
