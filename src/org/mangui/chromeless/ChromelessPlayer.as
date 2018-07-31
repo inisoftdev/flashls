@@ -128,6 +128,7 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerSetAudioTrack", _setAudioTrack);
             ExternalInterface.addCallback("playerSetJSURLStream", _setJSURLStream);
             ExternalInterface.addCallback("playerSetKeyframeSeek", _setKeyframeSeek);
+            ExternalInterface.addCallback("playerSetStartLevel", _setStartLevel);
         };
 
         protected function _setupExternalCallback() : void {
@@ -460,6 +461,10 @@ package org.mangui.chromeless {
 
         protected function _setKeyframeSeek(enable : Boolean) : void {
             HLSSettings.seekMode = enable ? HLSSeekMode.KEYFRAME_SEEK : HLSSeekMode.ACCURATE_SEEK;
+        }
+
+        protected function _setStartLevel(level : int) : void {
+            _hls.startLevel = level;
         }
 
         protected function _setmaxBufferLength(newLen : Number) : void {
