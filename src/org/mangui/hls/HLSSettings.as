@@ -396,5 +396,10 @@ package org.mangui.hls {
          * Default is true
          */
         public static var logError : Boolean = true;
+
+        public static var minVideoBandwidth : Number = -1;
+        public static var maxVideoBandwidth : Number = -1;
+        public static var minAudioBandwidth : Number = -1;
+        public static var maxAudioBandwidth : Number = -1;
     }
 }

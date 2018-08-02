@@ -129,6 +129,10 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerSetJSURLStream", _setJSURLStream);
             ExternalInterface.addCallback("playerSetKeyframeSeek", _setKeyframeSeek);
             ExternalInterface.addCallback("playerSetStartLevel", _setStartLevel);
+            ExternalInterface.addCallback("playerSetminVideoBandwidth", _setMinVideoBandwidth);
+            ExternalInterface.addCallback("playerSetmaxVideoBandwidth", _setMaxVideoBandwidth);
+            ExternalInterface.addCallback("playerSetminAudioBandwidth", _setMinAudioBandwidth);
+            ExternalInterface.addCallback("playerSetmaxAudioBandwidth", _setMaxAudioBandwidth);
         };
 
         protected function _setupExternalCallback() : void {
@@ -466,6 +470,22 @@ package org.mangui.chromeless {
         protected function _setStartLevel(level : int) : void {
             _hls.startLevel = level;
         }
+
+        protected function _setMinVideoBandwidth(bandwidth : Number) : void {
+            HLSSettings.minVideoBandwidth = bandwidth;
+        };
+
+        protected function _setMaxVideoBandwidth(bandwidth : Number) : void {
+            HLSSettings.maxVideoBandwidth = bandwidth;
+        };
+
+        protected function _setMinAudioBandwidth(bandwidth : Number) : void {
+            HLSSettings.minAudioBandwidth = bandwidth;
+        };
+
+        protected function _setMaxAudioBandwidth(bandwidth : Number) : void {
+            HLSSettings.maxAudioBandwidth = bandwidth;
+        };
 
         protected function _setmaxBufferLength(newLen : Number) : void {
             HLSSettings.maxBufferLength = newLen;

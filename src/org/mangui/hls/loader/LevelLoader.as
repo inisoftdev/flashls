@@ -277,6 +277,53 @@ package org.mangui.hls.loader {
             _manifestLoading = null;
         }
 
+        private function _filterLevels(levels : Vector.<Level>, minBandwidth : int, maxBandwidth : int ) : Vector.<Level> {
+            if (minBandwidth === -1 && maxBandwidth === -1) {
+                return levels;
+            }
+
+            var len : int = levels.length;
+
+            var startIndex : int = minBandwidth === -1 ? 0 : -1;
+            var endIndex : int = maxBandwidth === -1 ? len : -1;
+
+            for (var i : int = 0; i < len; ++i) {
+                var r : Level = levels[i];
+                if (startIndex === -1 && r.bitrate >= minBandwidth) {
+                    // if startIndex is -1, minBandwidth is set
+                    startIndex = i;
+                }
+                if (endIndex === -1 && r.bitrate > maxBandwidth) {
+                    // if endIndex is -1, maxBandwidth is set
+                    endIndex = i;
+                }
+            }
+            if (startIndex === -1) {
+                // minBandwidth is greater than any representations
+                // just return last one
+                startIndex = len - 1;
+                endIndex = len;
+            } else if (endIndex === -1) {
+                // maxBandwidth is greater than any representations
+                endIndex = len;
+            } else if (endIndex === 0) {
+                // maxBandwidth is less than any representations
+                // just return first one
+                startIndex = 0;
+                endIndex = 1;
+            }
+            // at this point, startIndex, endIndex are not -1.
+            if (startIndex >= endIndex) {
+                // maxBandwidth is less than minBandwidth
+                // just return one at startIndex
+                endIndex = startIndex + 1;
+            }
+            if (startIndex !== 0 || endIndex !== len) {
+                return levels.slice(startIndex, endIndex);
+            }
+            return levels;
+        }
+
         /** Parse First Level Playlist **/
         private function _parseManifest(string : String) : void {
             var errorTxt : String = null;
@@ -304,6 +351,10 @@ package org.mangui.hls.loader {
                     // adaptative playlist, extract levels from playlist, get them and parse them
                     _levels = Manifest.extractLevels(string, _url);
                     if (_levels.length) {
+                        CONFIG::LOGGING {
+                            Log.debug("before filterLevels. levels.length=" + _levels.length + ", min = " + HLSSettings.minVideoBandwidth + ", max = " + HLSSettings.maxVideoBandwidth);
+                        }
+                        _levels = _filterLevels(_levels, HLSSettings.minVideoBandwidth, HLSSettings.maxVideoBandwidth);
                         _metrics.parsing_end_time = getTimer();
                         _loadLevel = -1;
                         _hls.dispatchEvent(new HLSEvent(HLSEvent.MANIFEST_PARSED, _levels));
