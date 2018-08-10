@@ -92,6 +92,9 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("getstartFromLevel", _getstartFromLevel);
             ExternalInterface.addCallback("getseekFromLowestLevel", _getseekFromLevel);
             ExternalInterface.addCallback("getJSURLStream", _getJSURLStream);
+            ExternalInterface.addCallback("getJSKeyLoader", _getJSKeyLoader);
+            ExternalInterface.addCallback("getJSPlaylistLoader", _getJSPlaylistLoader);
+            ExternalInterface.addCallback("getJSFragmentLoader", _getJSFragmentLoader);
             ExternalInterface.addCallback("getPlayerVersion", _getPlayerVersion);
             ExternalInterface.addCallback("getAudioTrackList", _getAudioTrackList);
             ExternalInterface.addCallback("getAudioTrackId", _getAudioTrackId);
@@ -127,6 +130,9 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerCapLeveltoStage", _setCapLeveltoStage);
             ExternalInterface.addCallback("playerSetAudioTrack", _setAudioTrack);
             ExternalInterface.addCallback("playerSetJSURLStream", _setJSURLStream);
+            ExternalInterface.addCallback("playerSetJSKeyLoader", _setJSKeyLoader);
+            ExternalInterface.addCallback("playerSetJSPlaylistLoader", _setJSPlaylistLoader);
+            ExternalInterface.addCallback("playerSetJSFragmentLoader", _setJSFragmentLoader);
             ExternalInterface.addCallback("playerSetKeyframeSeek", _setKeyframeSeek);
             ExternalInterface.addCallback("playerSetStartLevel", _setStartLevel);
             ExternalInterface.addCallback("playerSetminVideoBandwidth", _setMinVideoBandwidth);
@@ -375,7 +381,21 @@ package org.mangui.chromeless {
         };
 
         protected function _getJSURLStream() : Boolean {
-            return (_hls.URLstream is JSURLStream);
+            return (_hls.fragmentURLStream is JSURLStream) &&
+                (_hls.keyURLStream is JSURLStream) &&
+                (_hls.playlistURLLoader is JSURLLoader);
+        };
+
+        protected function _getJSPlaylistLoader() : Boolean {
+            return (_hls.playlistURLLoader is JSURLLoader);
+        };
+
+        protected function _getJSKeyLoader() : Boolean {
+            return (_hls.keyURLStream is JSURLStream);
+        };
+
+        protected function _getJSFragmentLoader() : Boolean {
+            return (_hls.fragmentURLStream is JSURLStream);
         };
 
         protected function _getPlayerVersion() : Number {
@@ -537,15 +557,50 @@ package org.mangui.chromeless {
 
         protected function _setJSURLStream(jsURLstream : Boolean) : void {
             if (jsURLstream) {
-                _hls.URLstream = JSURLStream as Class;
-                _hls.URLloader = JSURLLoader as Class;
+                _hls.fragmentURLStream = JSURLStream as Class;
+                _hls.keyURLStream = JSURLStream as Class;
+                _hls.playlistURLLoader = JSURLLoader as Class;
                 if (_callbackName) {
-                    _hls.URLstream.externalCallback = _callbackName;
-                    _hls.URLloader.externalCallback = _callbackName;
+                    JSURLStream.externalCallback = _callbackName;
+                    JSURLLoader.externalCallback = _callbackName;
                 }
             } else {
-                _hls.URLstream = URLStream as Class;
-                _hls.URLloader = URLLoader as Class;
+                _hls.fragmentURLStream = URLStream as Class;
+                _hls.keyURLStream = URLStream as Class;
+                _hls.playlistURLLoader = URLLoader as Class;
+            }
+        };
+
+        protected function _setJSPlaylistLoader(jsURLstream : Boolean) : void {
+            if (jsURLstream) {
+                _hls.playlistURLLoader = JSURLLoader as Class;
+                if (_callbackName) {
+                    JSURLLoader.externalCallback = _callbackName;
+                }
+            } else {
+                _hls.playlistURLLoader = URLLoader as Class;
+            }
+        };
+
+        protected function _setJSKeyLoader(jsURLstream : Boolean) : void {
+            if (jsURLstream) {
+                _hls.keyURLStream = JSURLStream as Class;
+                if (_callbackName) {
+                    JSURLStream.externalCallback = _callbackName;
+                }
+            } else {
+                _hls.keyURLStream = URLStream as Class;
+            }
+        };
+
+        protected function _setJSFragmentLoader(jsURLstream : Boolean) : void {
+            if (jsURLstream) {
+                _hls.fragmentURLStream = JSURLStream as Class;
+                if (_callbackName) {
+                    JSURLStream.externalCallback = _callbackName;
+                }
+            } else {
+                _hls.fragmentURLStream = URLStream as Class;
             }
         };
 

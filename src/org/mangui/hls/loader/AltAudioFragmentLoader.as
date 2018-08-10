@@ -573,14 +573,16 @@ package org.mangui.hls.loader {
         private function _loadfragment(frag : Fragment) : void {
             // postpone URLStream init before loading first fragment
             if (_fragstreamloader == null) {
-                var urlStreamClass : Class = _hls.URLstream as Class;
-                _fragstreamloader = (new urlStreamClass()) as URLStream;
+                var fragmentUrlStreamClass : Class = _hls.fragmentURLStream as Class;
+                _fragstreamloader = (new fragmentUrlStreamClass()) as URLStream;
                 _fragstreamloader.addEventListener(IOErrorEvent.IO_ERROR, _fragLoadErrorHandler);
                 _fragstreamloader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _fragLoadErrorHandler);
                 _fragstreamloader.addEventListener(ProgressEvent.PROGRESS, _fragLoadProgressHandler);
                 _fragstreamloader.addEventListener(HTTPStatusEvent.HTTP_STATUS, _fragLoadHTTPStatusHandler);
                 _fragstreamloader.addEventListener(Event.COMPLETE, _fragLoadCompleteHandler);
-                _keystreamloader = (new urlStreamClass()) as URLStream;
+
+                var keyUrlStreamClass : Class = _hls.keyURLStream as Class;
+                _keystreamloader = (new keyUrlStreamClass()) as URLStream;
                 _keystreamloader.addEventListener(IOErrorEvent.IO_ERROR, _keyLoadErrorHandler);
                 _keystreamloader.addEventListener(SecurityErrorEvent.SECURITY_ERROR, _keyLoadErrorHandler);
                 _keystreamloader.addEventListener(HTTPStatusEvent.HTTP_STATUS, _keyLoadHTTPStatusHandler);

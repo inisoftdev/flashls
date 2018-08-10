@@ -163,7 +163,7 @@ package org.mangui.hls.loader {
         public function load(url : String) : void {
             if(!_urlloader) {
                 //_urlloader = new URLLoader();
-                var urlLoaderClass : Class = _hls.URLloader as Class;
+                var urlLoaderClass : Class = _hls.playlistURLLoader as Class;
                 _urlloader = (new urlLoaderClass()) as URLLoader;
                 _urlloader.addEventListener(Event.COMPLETE, _loadCompleteHandler);
                 _urlloader.addEventListener(ProgressEvent.PROGRESS, _loadProgressHandler);

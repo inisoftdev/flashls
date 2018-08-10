@@ -35,8 +35,9 @@ package org.mangui.hls {
         /** HLS NetStream **/
         private var _hlsNetStream : HLSNetStream;
         /** HLS URLStream/URLLoader **/
-        private var _hlsURLStream : Class;
-        private var _hlsURLLoader : Class;
+        private var _keyURLStream : Class;
+        private var _fragmentURLStream : Class;
+        private var _playlistURLLoader : Class;
         private var _client : Object = {};
         private var _stage : Stage;
         /* level handling */
@@ -51,8 +52,9 @@ package org.mangui.hls {
             _audioTrackController = new AudioTrackController(this);
             _levelController = new LevelController(this);
             _streamBuffer = new StreamBuffer(this, _audioTrackController, _levelController);
-            _hlsURLStream = URLStream as Class;
-            _hlsURLLoader = URLLoader as Class;
+            _keyURLStream = URLStream as Class;
+            _fragmentURLStream = URLStream as Class;
+            _playlistURLLoader = URLLoader as Class;
             // default loader
             var connection : NetConnection = new NetConnection();
             connection.connect(null);
@@ -277,22 +279,47 @@ package org.mangui.hls {
 
         /* set URL stream loader */
         public function set URLstream(urlstream : Class) : void {
-            _hlsURLStream = urlstream;
+            _keyURLStream = urlstream;
+            _fragmentURLStream = urlstream;
+        }
+
+        public function set keyURLStream(urlstream : Class) : void {
+            _keyURLStream = urlstream;
+        }
+
+        public function set fragmentURLStream(urlstream : Class) : void {
+            _fragmentURLStream = urlstream;
         }
 
         /* retrieve URL stream loader */
         public function get URLstream() : Class {
-            return _hlsURLStream;
+            return _fragmentURLStream;
+        }
+
+        public function get keyURLStream() : Class {
+            return _keyURLStream;
+        }
+
+        public function get fragmentURLStream() : Class {
+            return _fragmentURLStream;
         }
 
         /* set URL stream loader */
         public function set URLloader(urlloader : Class) : void {
-            _hlsURLLoader = urlloader;
+            _playlistURLLoader = urlloader;
+        }
+
+        public function set playlistURLLoader(urlloader : Class) : void {
+            _playlistURLLoader = urlloader;
         }
 
         /* retrieve URL stream loader */
         public function get URLloader() : Class {
-            return _hlsURLLoader;
+            return _playlistURLLoader;
+        }
+
+        public function get playlistURLLoader() : Class {
+            return _playlistURLLoader;
         }
         /* start/restart playlist/fragment loading.
            this is only effective if MANIFEST_PARSED event has been triggered already */

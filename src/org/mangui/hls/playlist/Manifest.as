@@ -76,7 +76,7 @@ package org.mangui.hls.playlist {
             _url = url;
             _success = success;
             _index = index;
-            var urlLoaderClass : Class = hls.URLloader as Class;
+            var urlLoaderClass : Class = hls.playlistURLLoader as Class;
             _urlloader = (new urlLoaderClass()) as URLLoader;
             _urlloader.addEventListener(Event.COMPLETE, _loadCompleteHandler);
             _urlloader.addEventListener(ProgressEvent.PROGRESS, _loadProgressHandler);
