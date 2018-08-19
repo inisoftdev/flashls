@@ -139,6 +139,9 @@ package org.mangui.chromeless {
             ExternalInterface.addCallback("playerSetmaxVideoBandwidth", _setMaxVideoBandwidth);
             ExternalInterface.addCallback("playerSetminAudioBandwidth", _setMinAudioBandwidth);
             ExternalInterface.addCallback("playerSetmaxAudioBandwidth", _setMaxAudioBandwidth);
+            ExternalInterface.addCallback("playerSetKeyLoadMaxRetry", _setKeyLoadMaxRetry);
+            ExternalInterface.addCallback("playerSetManifestLoadMaxRetry", _setManifestLoadMaxRetry);
+            ExternalInterface.addCallback("playerSetFragmentLoadMaxRetry", _setFragmentLoadMaxRetry);
         };
 
         protected function _setupExternalCallback() : void {
@@ -533,6 +536,18 @@ package org.mangui.chromeless {
 
         protected function _setseekFromLevel(seekFromLevel : int) : void {
             HLSSettings.seekFromLevel = seekFromLevel;
+        };
+
+        protected function _setKeyLoadMaxRetry(value : int) : void {
+            HLSSettings.keyLoadMaxRetry = value;
+        };
+
+        protected function _setManifestLoadMaxRetry(value : int) : void {
+            HLSSettings.manifestLoadMaxRetry = value;
+        };
+
+        protected function _setFragmentLoadMaxRetry(value : int) : void {
+            HLSSettings.fragmentLoadMaxRetry = value;
         };
 
         protected function _setLogDebug(debug : Boolean) : void {
