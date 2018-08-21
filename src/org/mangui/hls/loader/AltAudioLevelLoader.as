@@ -92,11 +92,11 @@ package org.mangui.hls.loader {
                 if(audioLevel == null) {
                     audioLevel = audioTrack.level = new Level();
                 }
-                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, frags, url));
+                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, audioLevel, frags, url));
                 audioLevel.updateFragments(frags);
                 audioLevel.targetduration = Manifest.getTargetDuration(string);
                 // if stream is live, arm a timer to periodically reload playlist
-                if (!Manifest.hasEndlist(string)) {
+                if (!Manifest.hasEndlist(string) && !audioLevel.hasPlayableEndSeqnum) {
                     var timeout : int = Math.max(100, _reloadPlaylistTimer + 1000 * audioLevel.averageduration - getTimer());
                     CONFIG::LOGGING {
                         Log.debug("Alt Audio Level Live Playlist parsing finished: reload in " + timeout + " ms");

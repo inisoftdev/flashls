@@ -41,6 +41,8 @@ package org.mangui.hls.model {
         public var start_seqnum : int;
         /** max sequence number from M3U8. **/
         public var end_seqnum : int;
+        /** max playable sequence number from M3U8. **/
+        public var playable_end_seqnum : int;
         /** target fragment duration from M3U8 **/
         public var targetduration : Number;
         /** average fragment duration **/
@@ -53,6 +55,7 @@ package org.mangui.hls.model {
         /** Create the quality level. **/
         public function Level() : void {
             this.fragments = new Vector.<Fragment>();
+            this.playable_end_seqnum = NaN;
         };
 
         public function get url() : String {
@@ -76,7 +79,7 @@ package org.mangui.hls.model {
             if(id < urls.length && id != _redundantStreamId) {
                 _redundantStreamId = id;
                 fragments = new Vector.<Fragment>();
-                start_seqnum = end_seqnum = NaN;
+                start_seqnum = end_seqnum = playable_end_seqnum = NaN;
             }
         }
 
@@ -159,7 +162,7 @@ package org.mangui.hls.model {
             }
             // if we are not at the end of the playlist, then return first sn of next cc range
             // this is needed to deal with PTS analysis on streams with discontinuity
-            if (lastIndex < end_seqnum) {
+            if (!isNaN(playable_end_seqnum) && playable_end_seqnum <= end_seqnum && lastIndex < playable_end_seqnum || lastIndex < end_seqnum) {
                 return frag.seqnum+1;
             } else {
                 // requested PTS above max PTS of this level
@@ -186,7 +189,7 @@ package org.mangui.hls.model {
 
         /** Return the fragment index from fragment sequence number **/
         private function getIndexfromSeqNum(seqnum : int) : int {
-            if (seqnum >= start_seqnum && seqnum <= end_seqnum) {
+            if (seqnum >= start_seqnum && (!isNaN(playable_end_seqnum) && playable_end_seqnum <= end_seqnum && seqnum <= playable_end_seqnum || seqnum <= end_seqnum)) {
                 return (fragments.length - 1 - (end_seqnum - seqnum));
             } else {
                 return -1;
@@ -404,6 +407,10 @@ package org.mangui.hls.model {
                     Log.error("updateFragment:seqnum " + seqnum + " not found!");
                 }
             }
+        }
+
+        public function get hasPlayableEndSeqnum() : Boolean {
+            return !isNaN(playable_end_seqnum) && playable_end_seqnum != 0;
         }
     }
 }

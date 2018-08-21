@@ -214,7 +214,7 @@ package org.mangui.hls.loader {
                 // successful loading, reset retry counter
                 _retryTimeout = 1000;
                 _retryCount = 0;
-                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, frags, url));
+                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, _levels[level], frags, url));
                 // set fragment and update sequence number range
                 _levels[level].updateFragments(frags);
                 _levels[level].targetduration = Manifest.getTargetDuration(string);
@@ -236,7 +236,7 @@ package org.mangui.hls.loader {
                 }
             }
             // Check whether the stream is live or not finished yet
-            if (Manifest.hasEndlist(string)) {
+            if (Manifest.hasEndlist(string) || _levels[level].hasPlayableEndSeqnum) {
                 setType(HLSTypes.VOD);
                 _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_ENDLIST, level));
             } else {

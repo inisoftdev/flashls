@@ -291,6 +291,10 @@ package org.mangui.chromeless {
             if (result.startOffset != null) {
                 _modifyLevelFragmentsWithStartOffset(event.fragments, result.startOffset);
             }
+            if (result.playableEndSeqNum != null) {
+                Log.info('result.playableEndSeqNum = ' + result.playableEndSeqNum);
+                event.targetLevel.playable_end_seqnum = result.playableEndSeqNum;
+            }
         };
 
         protected function _modifyLevelFragmentsWithStartOffset(fragments : Vector.<Fragment>, startOffset : Number) : void {

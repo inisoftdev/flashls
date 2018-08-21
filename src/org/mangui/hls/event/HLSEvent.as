@@ -91,6 +91,8 @@ package org.mangui.hls.event {
         /** The error message. **/
         public var error : HLSError;
         /** Parsed level **/
+        public var targetLevel : Level;
+        /** Parsed level fragments **/
         public var fragments : Vector.<Fragment>;
         /** Load Metrics. **/
         public var loadMetrics : HLSLoadMetrics;
@@ -108,7 +110,7 @@ package org.mangui.hls.event {
         public var ID3Data : String;
 
         /** Assign event parameter and dispatch. **/
-        public function HLSEvent(type : String, parameter : *=null, parameter2 : *=null) {
+        public function HLSEvent(type : String, parameter : *=null, parameter2 : *=null, parameter3 : *=null) {
             switch(type) {
                 case MANIFEST_LOADING:
                 case FRAGMENT_LOADING:
@@ -149,8 +151,9 @@ package org.mangui.hls.event {
                     level = parameter as int;
                     break;
                 case LEVEL_FRAGMENTS_PARSED:
-                    fragments = parameter as Vector.<Fragment>;
-                    url = parameter2 as String;
+                    targetLevel = parameter as Level;
+                    fragments = parameter2 as Vector.<Fragment>;
+                    url = parameter3 as String;
                     break;
                 case PLAYLIST_DURATION_UPDATED:
                 case FRAGMENT_SKIPPED:

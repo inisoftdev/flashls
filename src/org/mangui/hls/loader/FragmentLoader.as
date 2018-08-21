@@ -848,7 +848,13 @@ package org.mangui.hls.loader {
             }
 
             if (_ptsAnalyzing == false) {
-                if (last_seqnum == levelObj.end_seqnum) {
+                if (!isNaN(levelObj.playable_end_seqnum) && levelObj.playable_end_seqnum <= levelObj.end_seqnum && last_seqnum == levelObj.playable_end_seqnum) {
+                    // VOD or LIVE playlist, loading is completed
+                    CONFIG::LOGGING {
+                        Log.info('#3. seqnum = ' + last_seqnum + ', playable_end_seqnum = ' + levelObj.playable_end_seqnum + ', end_seqnum = ' + levelObj.end_seqnum);
+                    }
+                    return LOADING_COMPLETED;
+                } else if (last_seqnum == levelObj.end_seqnum) {
                     // if last segment of level already loaded, return
                     if (_hls.type == HLSTypes.VOD) {
                         // if VOD playlist, loading is completed
