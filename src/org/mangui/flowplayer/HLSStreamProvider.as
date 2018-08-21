@@ -194,6 +194,7 @@ package org.mangui.flowplayer {
             // }
             switch(event.state) {
                 case HLSPlayStates.IDLE:
+                case HLSPlayStates.LOADING:
                 case HLSPlayStates.PLAYING:
                 case HLSPlayStates.PAUSED:
                     _clip.dispatch(ClipEventType.BUFFER_FULL);

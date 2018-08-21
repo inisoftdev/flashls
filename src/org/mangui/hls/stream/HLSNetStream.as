@@ -89,6 +89,7 @@ package org.mangui.hls.stream {
             _client.registerCallback("onHLSFragmentChange", onHLSFragmentChange);
             _client.registerCallback("onHLSFragmentSkipped", onHLSFragmentSkipped);
             _client.registerCallback("onID3Data", onID3Data);
+            _hls.addEventListener(HLSEvent.MANIFEST_LOADING, _onManifestLoading);
             super.client = _client;
         }
 
@@ -439,6 +440,7 @@ package org.mangui.hls.stream {
              */
             switch(_playbackState) {
                 case HLSPlayStates.IDLE:
+                case HLSPlayStates.LOADING:
                 case HLSPlayStates.PAUSED:
                 case HLSPlayStates.PAUSED_BUFFERING:
                     _setPlaybackState(HLSPlayStates.PAUSED_BUFFERING);
@@ -478,9 +480,16 @@ package org.mangui.hls.stream {
             _setSeekState(HLSSeekStates.IDLE);
         }
 
+        private function _onManifestLoading(e : Event) : void {
+            if (_playbackState == HLSPlayStates.IDLE) {
+                _setPlaybackState(HLSPlayStates.LOADING);
+            }
+        }
+
         public function dispose_() : void {
             close();
             _timer.removeEventListener(TimerEvent.TIMER, _checkBuffer);
+            _hls.removeEventListener(HLSEvent.MANIFEST_LOADING, _onManifestLoading);
             _bufferThresholdController.dispose();
         }
     }

@@ -6,6 +6,8 @@
     public class HLSPlayStates {
         /** idle state. **/
         public static const IDLE : String = "IDLE";
+        /** MANIFEST state. **/
+        public static const LOADING : String = "LOADING";
         /** playing state. **/
         public static const PLAYING : String = "PLAYING";
         /** paused state. **/

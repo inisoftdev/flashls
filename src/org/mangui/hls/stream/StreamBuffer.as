@@ -658,7 +658,7 @@ package org.mangui.hls.stream {
 
             var tagDuration : Number = 0;
             if (_seekPositionReached) {
-                if (netStreamBuffer < MIN_NETSTREAM_BUFFER_SIZE && _hls.playbackState != HLSPlayStates.IDLE) {
+                if (netStreamBuffer < MIN_NETSTREAM_BUFFER_SIZE && (_hls.playbackState != HLSPlayStates.IDLE && _hls.playbackState != HLSPlayStates.LOADING)) {
                     tagDuration = MAX_NETSTREAM_BUFFER_SIZE - netStreamBuffer;
                 }
             } else {
