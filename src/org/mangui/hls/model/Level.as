@@ -284,7 +284,7 @@ package org.mangui.hls.model {
                     }
                     duration = _fragments[len - 1].start_time + _fragments[len - 1].duration;
                 }
-                averageduration = duration / len;
+                averageduration = (duration - _fragments[0].start_time) / len;
             } else {
                 duration = 0;
                 averageduration = 0;
