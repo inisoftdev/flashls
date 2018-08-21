@@ -2,6 +2,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/. */
 package org.mangui.hls.event {
+    import org.mangui.hls.model.Fragment;
     import org.mangui.hls.model.Level;
 
     import flash.events.Event;
@@ -20,6 +21,8 @@ package org.mangui.hls.event {
         public static const LEVEL_LOADING : String = "hlsEventLevelLoading";
         /** Identifier for a level loading aborted event  **/
         public static const LEVEL_LOADING_ABORTED : String = "hlsEventLevelLoadingAborted";
+        /** Identifier for a level parsing event  **/
+        public static const LEVEL_FRAGMENTS_PARSED : String = "hlsEventLevelFragmentsParsed";
         /** Identifier for a level loaded event  **/
         public static const LEVEL_LOADED : String = "hlsEventLevelLoaded";
         /** Identifier for a level switch event. **/
@@ -87,6 +90,8 @@ package org.mangui.hls.event {
         public var levels : Vector.<Level>;
         /** The error message. **/
         public var error : HLSError;
+        /** Parsed level **/
+        public var fragments : Vector.<Fragment>;
         /** Load Metrics. **/
         public var loadMetrics : HLSLoadMetrics;
         /** Play Metrics. **/
@@ -142,6 +147,10 @@ package org.mangui.hls.event {
                 case FPS_DROP:
                 case FPS_DROP_LEVEL_CAPPING:
                     level = parameter as int;
+                    break;
+                case LEVEL_FRAGMENTS_PARSED:
+                    fragments = parameter as Vector.<Fragment>;
+                    url = parameter2 as String;
                     break;
                 case PLAYLIST_DURATION_UPDATED:
                 case FRAGMENT_SKIPPED:

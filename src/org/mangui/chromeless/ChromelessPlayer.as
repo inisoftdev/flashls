@@ -21,6 +21,7 @@ package org.mangui.chromeless {
     import org.mangui.hls.HLS;
     import org.mangui.hls.HLSSettings;
     import org.mangui.hls.model.AudioTrack;
+    import org.mangui.hls.model.Fragment;
     import org.mangui.hls.model.Level;
     import org.mangui.hls.utils.JSURLLoader;
     import org.mangui.hls.utils.JSURLStream;
@@ -278,6 +279,25 @@ package org.mangui.chromeless {
         protected function _liveLoadingStalledHandler(event : HLSEvent) : void {
             _trigger("liveLoadingStalled");
         };
+
+        protected function _levelFragmentsParsedHandler(event : HLSEvent) : void {
+            if (!ExternalInterface.available) {
+                return;
+            }
+            var result : Object = ExternalInterface.call(_callbackName, "modifyLevelFragments", [event.url, event.fragments]);
+            if (result == null) {
+                return;
+            }
+            if (result.startOffset != null) {
+                _modifyLevelFragmentsWithStartOffset(event.fragments, result.startOffset);
+            }
+        };
+
+        protected function _modifyLevelFragmentsWithStartOffset(fragments : Vector.<Fragment>, startOffset : Number) : void {
+            fragments.forEach(function (frag : Fragment, index : int, vector:Vector.<Fragment>) : void {
+                frag.start_time += startOffset;
+            });
+        }
 
         /** Javascript getters. **/
         protected function _getCurrentLevel() : int {
@@ -664,6 +684,7 @@ package org.mangui.chromeless {
             _hls.addEventListener(HLSEvent.FPS_DROP_LEVEL_CAPPING, _fpsDropLevelCappingHandler);
             _hls.addEventListener(HLSEvent.FPS_DROP_SMOOTH_LEVEL_SWITCH, _fpsDropSmoothLevelSwitchHandler);
             _hls.addEventListener(HLSEvent.LIVE_LOADING_STALLED, _liveLoadingStalledHandler);
+            _hls.addEventListener(HLSEvent.LEVEL_FRAGMENTS_PARSED, _levelFragmentsParsedHandler);
 
             if (available && stage.stageVideos.length > 0) {
                 _stageVideo = stage.stageVideos[0];

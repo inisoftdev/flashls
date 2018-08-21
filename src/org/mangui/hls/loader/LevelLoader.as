@@ -214,6 +214,7 @@ package org.mangui.hls.loader {
                 // successful loading, reset retry counter
                 _retryTimeout = 1000;
                 _retryCount = 0;
+                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, frags, url));
                 // set fragment and update sequence number range
                 _levels[level].updateFragments(frags);
                 _levels[level].targetduration = Manifest.getTargetDuration(string);

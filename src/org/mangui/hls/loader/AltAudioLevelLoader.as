@@ -92,6 +92,7 @@ package org.mangui.hls.loader {
                 if(audioLevel == null) {
                     audioLevel = audioTrack.level = new Level();
                 }
+                _hls.dispatchEvent(new HLSEvent(HLSEvent.LEVEL_FRAGMENTS_PARSED, frags, url));
                 audioLevel.updateFragments(frags);
                 audioLevel.targetduration = Manifest.getTargetDuration(string);
                 // if stream is live, arm a timer to periodically reload playlist
